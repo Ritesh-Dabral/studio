@@ -10,3 +10,11 @@
     object-fit: contain;
     border-radius: 20px;
 }
+
+.btn-link{
+    background-color: transparent;
+    outline: none;
+    border: none;
+    text-decoration: none;
+}
+

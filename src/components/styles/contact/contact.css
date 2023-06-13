@@ -1,0 +1,78 @@
+.contact-main-wrapper{
+    display: grid;
+    grid-template-columns: 1fr;
+    margin-top: 10rem;
+    grid-column-gap: 20px;
+    grid-row-gap: 0px;
+}
+
+.content-wrapper{
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+}
+
+.content-body{
+    display: grid;
+    grid-template-columns: 0.5fr 1fr;
+    margin-left: 35rem;
+    grid-template-rows: 1fr;
+    grid-column-gap: 20px;
+    grid-row-gap: 0px;   
+}
+.title-wrapper { 
+    grid-area: 1 / 1 / 2 / 2; 
+}
+.contact-section { 
+    display: grid; 
+    grid-auto-columns: 1fr; 
+    grid-template-columns: 0.4fr 0.4fr; 
+    grid-template-rows: 1fr 1fr 1fr ; 
+    gap: 0px 0px; 
+    grid-template-areas: 
+    "name name"
+    "label1 label2"
+}
+
+.name{
+    grid-area: name name;
+}
+
+.label1{
+    grid-area: label1;
+    display: grid;
+    grid-template-columns: 0.4fr;
+    grid-template-rows: 1fr;
+}
+
+
+.label2{
+    grid-area: label2;
+    display: grid;
+    grid-template-columns: 0.4fr;
+    grid-template-rows: 1fr;
+}
+
+
+.email{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+}
+
+.label7{
+    grid-area: label1;
+    display: grid;
+    grid-template-columns: 0.4fr;
+    grid-template-rows: 1fr;
+}
+
+
+.label8{
+    grid-area: label2;
+    display: grid;
+    grid-template-columns: 0.4fr;
+    grid-template-rows: 1fr;
+}

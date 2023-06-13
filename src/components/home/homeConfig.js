@@ -1,6 +1,6 @@
 export const sideTabs = [
     {
-        'key':'home',
+        'key':'',
         'label': 'Home'
     },
     {

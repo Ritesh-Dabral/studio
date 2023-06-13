@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 .wrapper-dash{
     display: grid;
-    grid-template-columns: repeat(2, 0.4fr);
+    grid-template-columns: 0.4fr 0.4fr;
     grid-column-gap: 20px;
     grid-row-gap: 0px;
 }

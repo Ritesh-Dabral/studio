@@ -4,14 +4,20 @@ import Offcanvas from 'react-bootstrap/Offcanvas';
 import Button from 'react-bootstrap/Button';
 import { sideTabs } from './homeConfig';
 import styles from '../styles/home/sidebar.module.css'
+import { useNavigate } from 'react-router-dom';
 
 function Sidebar() {
   const [show, setShow] = useState(true);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const navigate = useNavigate();
 
+  function handleClick(route){
+      return navigate(`/${route}`)
+  }
   return (
+
     <div>
       <Button variant="primary" onClick={handleShow}>
         Launch
@@ -27,7 +33,7 @@ function Sidebar() {
           </div>
           {
             Array.isArray(sideTabs) && sideTabs.map((tab, index)=>{
-              return <div key={`home_sidebar_${index}`}>{tab.label}</div>
+              return <div key={`home_sidebar_${index}`}><button className={styles['btn-link']} onClick={()=>handleClick(tab.key)}>{tab.label}</button></div>
             })
           }
         </Offcanvas.Body>
