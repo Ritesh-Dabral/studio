@@ -5,7 +5,6 @@ import Main from "./main/main.js"
 function Home() {
   return (
     <div>
-        <Sidebar />
         <Main />
     </div>
   )

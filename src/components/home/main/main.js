@@ -8,7 +8,6 @@ import styles from "../../styles/home/main/main.module.css";
 function Main() {
   return (
     <div className={["text-end", styles['main-container']].join(' ')}>
-      main
       <LandingSection />
       {/* <GallerySection />
       <Testimonials />
