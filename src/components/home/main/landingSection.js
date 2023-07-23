@@ -1,20 +1,20 @@
+import axios from 'axios';
 import styles from '../../styles/home/main/landingSection.module.css'
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import { landingPageData } from './homeMainConfig';
+import { useState, useEffect } from 'react';
+import Image from '../../images/image';
+import Modal from 'react-bootstrap/Modal';
 
 export default function LandingSection() {
+
+  const [images, setImages] = useState([]);
+  const [hasMore, setHasMore] = useState(true);
+  const [pageData, setPageData] = useState({'page':1, 'limit':8});
+  const [fetchInProgress, setFetchInProgress] = useState(false);
+  const [gallery, setGallery] = useState({'show':false, 'index':0});
 
   const generateDynamicGridItemCss = (index, row)=>{
 
     let rem = index%6;
-
-    const getRandomNo = ()=>{
-      return Math.floor((Math.random()*256));
-    }
-
-    console.log({'before row': row})
 
     row  = (row*8)+1; // beacuse in css we have row repeat of 8 and column repeat of 8
 
@@ -23,7 +23,7 @@ export default function LandingSection() {
       gridColumnEnd: 0,
       gridRowStart: 0,
       gridRowEnd: 0,
-      backgroundColor: `rgb(${getRandomNo()}, ${getRandomNo()}, ${getRandomNo()})`
+      // maxWidth: '100%', // Set the desired max width for the images
       // width: 'max-content'
     }
     if(rem===0){
@@ -58,10 +58,47 @@ export default function LandingSection() {
       styleObj.gridRowEnd =  row+8;
     }
 
-    console.log({row, styleObj})
-
     return styleObj;
   }
+
+  const fetchImages = async ()=>{
+    try {
+      if(!hasMore || fetchInProgress){
+        return; // no more data to fetch or fetching data
+      }
+      setFetchInProgress(true)
+      const resp = await axios.get(`${process.env.REACT_APP_STUDIO_BE}/image`,{
+        params:{
+          'pageData': JSON.stringify(pageData)
+        },
+        timeout: 5000
+      })
+
+      let tempImages = [...images]
+      if(resp.data.data.images){
+        tempImages = [...tempImages, ...resp.data.data.images];
+      }
+      if(resp.data.data.pagination.nextPage){
+        setPageData({...pageData, 'page': resp.data.data.pagination.nextPage})
+        setHasMore(true)
+      }else{
+        setHasMore(false)
+      }
+      setImages(tempImages)
+
+    } catch (error) {
+      // console.log({error})
+    }
+    setFetchInProgress(false)
+  }
+
+  const handleGalleryView = async(e, index)=>{
+    setGallery({'show':true, 'index':index})
+  }
+
+  useEffect(()=>{
+    fetchImages()
+  }, [])
 
 
   return (
@@ -69,15 +106,21 @@ export default function LandingSection() {
       <div className={styles['landing-section-container']}>
         <div className={styles['gallery']} >
           {
-            Array.isArray(landingPageData) && landingPageData.map((imgSrc, index)=>{
+            Array.isArray(images) && images.map((_img, index)=>{
               return (
-                <div key={`images_${index}_home`} style={generateDynamicGridItemCss(index, Math.floor(index/6))}><img className={styles['gallery__img']} src={imgSrc} alt=""/></div>
+                <div key={`images_${index}_home`} style={generateDynamicGridItemCss(index, Math.floor(index/6))}>
+                  <Image source={_img.image_url} name={_img.image_meta.originalname} base64={_img.image_base64} meta={_img.image_meta}/>
+                  {/* <img className={styles['gallery__img']} src={imgSrc} alt=""/> */}
+                </div>
               )
             })
           }
         </div>
-
+          {
+            hasMore && <button disabled={fetchInProgress} className={[ 'mt-4 w-100' ,styles['load-more-btn']].join(' ')} onClick={fetchImages}>Load More</button>
+          }
       </div>
+      
     </>
   )
 }

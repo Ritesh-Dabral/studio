@@ -1,13 +1,10 @@
 import React from 'react'
 import "../styles/contact/contact.css"
-import Sidebar from '../home/Sidebar'
+// import Sidebar from '../home/Sidebar'
 
 function Contact() {
   return (
     <div className='contact-main-wrapper'>
-        <div className='sidebar-wrapper'>
-            <Sidebar/>
-        </div>
         <div className='content-wrapper'>
                 <div className='content-body'>
                     <div className='title-wrapper'>

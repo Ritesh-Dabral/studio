@@ -8,10 +8,9 @@ import Contact from "../contact/Contact";
 function Routes() {
   return (
     <RouteWrapper>
-        <Route path="/" element={<Home/>}/>
-        
-        <Route path="/about" element={<About/>}/>
-        <Route path="/contact" element={<Contact/>}/>
+        <Route exact path="/about" element={<About/>}/>
+        <Route exact path="/contact" element={<Contact/>}/>
+        <Route path="*"  element={<Home/>}/>
     </RouteWrapper>
   )
 }

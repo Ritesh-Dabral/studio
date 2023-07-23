@@ -1,4 +1,3 @@
-import Sidebar from "./Sidebar.js"
 import Main from "./main/main.js"
 
 
