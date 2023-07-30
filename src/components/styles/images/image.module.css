@@ -50,6 +50,7 @@
     -o-animation-fill-mode: forwards;      /* Not implemented yet */
     -ms-animation-fill-mode: forwards;     /* IE 10+ */
     animation-fill-mode: forwards; 
+    overflow-wrap: anywhere;
 }
 
 

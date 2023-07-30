@@ -1,15 +1,19 @@
 // import React from 'react'
 import { useEffect, useState, useRef, useContext, useCallback, useLayoutEffect } from 'react';
 import Offcanvas from 'react-bootstrap/Offcanvas';
-import Button from 'react-bootstrap/Button';
-import { sideTabs } from './homeConfig';
+import { sideTabs, connectOptions } from './homeConfig';
 import styles from '../styles/home/sidebar.module.css'
 import { useNavigate } from 'react-router-dom';
 import GlobalContext from '../../context/Global/GlobalContext';
 import { UPDATE_SIDEBAR_DIMENSIONS } from '../../context/Global/GlobalContextEvents';
 import listIcon from '../../assets/svg/list.svg'
+import { useLocation } from 'react-router-dom';
+
 
 function Sidebar() {
+
+  const location = useLocation();
+
   const [show, setShow] = useState(true);
 
   const handleClose = () => {
@@ -53,6 +57,12 @@ function Sidebar() {
         }
       )
   },[show])
+
+
+  const handleRedirection = (link)=>{
+    window.open(link, '_blank');
+  }
+
   
   useLayoutEffect(()=>{
     let path = window.location.pathname;
@@ -66,7 +76,7 @@ function Sidebar() {
     if(!isKeySet){
       setCurrentTab(sideTabs[0].key)
     }
-  }, [])
+  }, [location]) // change this when the URL changes
 
   useEffect(()=>{
     setShow(!isMobileSize);
@@ -80,15 +90,19 @@ function Sidebar() {
         </div>
 
         <div>
-          <Offcanvas show={show} scroll={!isMobileSize} onHide={handleClose} backdrop={false} onEntered={handleDimensionChange} onExited={handleDimensionChange} ref={containerRef}>
+          <Offcanvas className='border-0' show={show} scroll={!isMobileSize} onHide={handleClose} backdrop={false} onEntered={handleDimensionChange} onExited={handleDimensionChange} ref={containerRef}>
             <div ref={containerRef} className='h-100  w-100'>
               <Offcanvas.Header closeButton className='d-md-none'>
                 <Offcanvas.Title></Offcanvas.Title>
               </Offcanvas.Header>
               <Offcanvas.Body>
+
+                {/* Logo */}
                 <div className={styles['logo-container']}>
                   <img src='https://rkstudio.s3.ap-south-1.amazonaws.com/static/logo2.png' alt='logo'/>
                 </div>
+
+                {/* Pages */}
                 <div>
                   {
                     Array.isArray(sideTabs) && sideTabs.map((tab, index)=>{
@@ -103,6 +117,24 @@ function Sidebar() {
                       )
                     })
                   }
+                </div>
+
+                {/* Connections */}
+                <div className={['mt-5', styles.connectOptions].join(' ')}>
+                  {
+                    Array.isArray(connectOptions) && connectOptions.map((option, index)=>{
+                      return (
+                      <span key={`connect_options_${index}`} onClick={ option.link ? ()=>handleRedirection(option.link) : option.fn }>
+                        <img src={option.icon} alt='icon' className='' />
+                      </span>
+                      )
+                    })
+                  }
+                </div>
+
+                {/* Copyright */}
+                <div className={['my-4', styles.copyRight].join(' ')}> 
+                  <p> &#169; RK Digital Studio 2023</p>
                 </div>
               </Offcanvas.Body>
             </div>

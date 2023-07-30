@@ -25,6 +25,7 @@
 
 .tabBtn p{
     margin: 0;
+    letter-spacing: 2px;
 }
 
 .active{
@@ -53,4 +54,30 @@
 .inactive:hover::after{
     width: 100%;
     transition: width .5s;
+}
+
+.connectOptions span{
+    cursor: pointer;
+    border-radius: 2px;
+    margin: auto 1rem;
+}
+
+.connectOptions span img{
+    width: 25px;
+    transition: box-shadow 0.3s ease;
+}
+
+.connectOptions span img:hover{
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+}
+
+.copyRight{
+    position: fixed;
+    bottom: 0;
+}
+
+.copyRight p{
+    margin: 0;
+    font-size: x-small;
+    font-weight: 600;
 }
