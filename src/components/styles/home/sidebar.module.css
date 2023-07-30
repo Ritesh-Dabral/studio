@@ -9,6 +9,7 @@
     height: 100%;
     object-fit: contain;
     border-radius: 20px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
 .btn-link{
@@ -18,3 +19,38 @@
     text-decoration: none;
 }
 
+.tabBtn{
+    cursor: pointer;
+}
+
+.tabBtn p{
+    margin: 0;
+}
+
+.active{
+    background: #343436;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    color: white;
+    border-radius: 2px;
+}
+.active p{
+    color: white;
+}
+.inactive{
+    width: fit-content;
+    max-width: fit-content;
+}
+
+.inactive::after{
+    content: '';
+    display: block;
+    width: 0;
+    height: 2px;
+    background: #000;
+    transition: width .5s;
+}
+
+.inactive:hover::after{
+    width: 100%;
+    transition: width .5s;
+}

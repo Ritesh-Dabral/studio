@@ -3,6 +3,8 @@ import styles from '../../styles/home/main/landingSection.module.css'
 import { useState, useEffect } from 'react';
 import Image from '../../images/image';
 import Modal from 'react-bootstrap/Modal';
+import Spinner from 'react-bootstrap/Spinner';
+
 
 export default function LandingSection() {
 
@@ -116,11 +118,23 @@ export default function LandingSection() {
             })
           }
         </div>
-          {
-            hasMore && <button disabled={fetchInProgress} className={[ 'mt-4 w-100' ,styles['load-more-btn']].join(' ')} onClick={fetchImages}>Load More</button>
-          }
       </div>
       
+        {
+          hasMore && (
+            <div className={styles['load-more-container']}>
+              <button disabled={fetchInProgress} className={[ 'mt-md-4 w-100' ,styles['load-more-btn']].join(' ')} onClick={fetchImages}>
+                { 
+                  fetchInProgress ? 
+                    <Spinner animation="border" role="status">
+                      <span className="visually-hidden">Loading...</span>
+                    </Spinner>
+                  : 'Load More'
+                }
+               </button>
+            </div>
+          )
+        }
     </>
   )
 }

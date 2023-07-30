@@ -1,14 +1,22 @@
+import home from '../../assets/svg/house-simple.svg'
+import about from '../../assets/svg/users-three.svg'
+import contact from '../../assets/svg/paper-plane-tilt.svg'
+
+
 export const sideTabs = [
     {
         'key':'',
-        'label': 'Home'
+        'label': 'Home',
+        'icon': home
     },
     {
         'key':'about',
-        'label': 'About'
+        'label': 'About',
+        'icon': about
     },
     {
         'key':'contact',
-        'label': 'Contact'
+        'label': 'Contact',
+        'icon': contact
     }
 ]

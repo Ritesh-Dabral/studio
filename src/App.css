@@ -1,1 +1,8 @@
 /* GLOBAL CSS */
+
+.stickyBar{
+    position: sticky;
+    top: 0;
+    background: #fff;
+    z-index: 2;
+}

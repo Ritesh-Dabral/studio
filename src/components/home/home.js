@@ -3,7 +3,7 @@ import Main from "./main/main.js"
 
 function Home() {
   return (
-    <div>
+    <div className="w-100">
         <Main />
     </div>
   )
