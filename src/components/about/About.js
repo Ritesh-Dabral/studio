@@ -16,21 +16,21 @@ function About() {
 
   return (
     <div className={style['wrapper-dash']}>
-      <span className={style['side-bar-wrapper']}>
+      <span className="">
 
       </span>
       <div className={style['wrapper-main']}>
-        <div className={style['heading']}>
+        <div className="">
             <p className={style['about-title']}>ABOUT</p>
             <p className={style['brand-name']}>RK Studio</p>
         </div>
-        <div className={style['image-section']}>
+        <div className="my-5">
           <img className={style["profile-image"]} src="https://rkstudio.s3.ap-south-1.amazonaws.com/static/profile.jpg" alt=""></img>
         </div>
-        <div className={style['info-section']}>
+        <div className="my-5">
           <p>At RK DIGITAL STUDIO, we are passionate about capturing and preserving the special moments in your life. Whether you're looking for a professional headshot, a family portrait, or coverage for a special event, our talented team of photographers and videographers are here to exceed your expectations.</p>
         </div>
-        <div className={style['button-wrapper']}>
+        <div className="">
           <button className={style['touch']} onClick={handleClick}>Get in Touch</button>
         </div>
       </div>

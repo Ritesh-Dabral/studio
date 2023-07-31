@@ -1,78 +1,53 @@
-.contact-main-wrapper{
-    display: grid;
-    grid-template-columns: 1fr;
-    margin-top: 10rem;
-    grid-column-gap: 20px;
-    grid-row-gap: 0px;
+.contactContainer{
+    margin: 6rem auto;
+    padding: 2rem 1.5rem;
 }
 
-.content-wrapper{
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr;
-    grid-column-gap: 0px;
-    grid-row-gap: 0px;
+.contactContainer h1{
+    font-size: xxx-large;
 }
 
-.content-body{
-    display: grid;
-    grid-template-columns: 0.5fr 1fr;
-    margin-left: 35rem;
-    grid-template-rows: 1fr;
-    grid-column-gap: 20px;
-    grid-row-gap: 0px;   
-}
-.title-wrapper { 
-    grid-area: 1 / 1 / 2 / 2; 
-}
-.contact-section { 
-    display: grid; 
-    grid-auto-columns: 1fr; 
-    grid-template-columns: 0.4fr 0.4fr; 
-    grid-template-rows: 1fr 1fr 1fr ; 
-    gap: 0px 0px; 
-    grid-template-areas: 
-    "name name"
-    "label1 label2"
+.input{
+    color: #636363;
+    display: block;
+    width: 100%;
+    background: #fff;
+    border: 1px solid rgba(79,79,79, 0.2);
+    outline: 0;
+    font-weight: 400;
+    border-radius: 0;
+    font-size: inherit;
+    line-height: 1.5;
+    padding: 10px;
 }
 
-.name{
-    grid-area: name name;
+.textArea{
+    height: 105px;
+    max-height: 150px;
+    min-height: 150px;
 }
 
-.label1{
-    grid-area: label1;
-    display: grid;
-    grid-template-columns: 0.4fr;
-    grid-template-rows: 1fr;
+.touch{
+    width: 9rem;
+    height: 4rem;
+    background-color: #343434;
+    color: white;
+    font-size: 1rem;
+    border: none;
+}
+
+.touch:hover{
+    background-color: #5c5c5c;
+    transition-delay: 200ms;
 }
 
 
-.label2{
-    grid-area: label2;
-    display: grid;
-    grid-template-columns: 0.4fr;
-    grid-template-rows: 1fr;
-}
-
-
-.email{
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr;
-}
-
-.label7{
-    grid-area: label1;
-    display: grid;
-    grid-template-columns: 0.4fr;
-    grid-template-rows: 1fr;
-}
-
-
-.label8{
-    grid-area: label2;
-    display: grid;
-    grid-template-columns: 0.4fr;
-    grid-template-rows: 1fr;
+/* media */
+@media only screen and (max-width: 600px) {
+    .contactContainer{
+        margin: 2rem auto;
+    }
+    .contactContainer h1{
+        margin-bottom: 3rem;
+    }
 }

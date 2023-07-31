@@ -10,7 +10,7 @@ export default function LandingSection() {
 
   const [images, setImages] = useState([]);
   const [hasMore, setHasMore] = useState(true);
-  const [pageData, setPageData] = useState({'page':1, 'limit':6});
+  const [pageData, setPageData] = useState({'page':1, 'limit':12});
   const [fetchInProgress, setFetchInProgress] = useState(false);
   const [gallery, setGallery] = useState({'show':false, 'index':0});
 
