@@ -34,7 +34,7 @@ function Contact() {
         }
       })
       setIsFormSubmitted(true);
-      showToast('Submission successful', 'error');
+      showToast('Submission successful');
       sessionStorage.setItem(SESSION_FORM_SUBMISSION_KEY, JSON.stringify(true))
     }
      catch (error) {
