@@ -9,7 +9,7 @@ import Lottie from '../../common/lottie/Lottie';
 function Contact() {
 
   const SESSION_FORM_SUBMISSION_KEY = 'SESSION_FORM_SUBMISSION_KEY'
-  const [formDetails, setFormDetails] = useState({'firstname':'', 'lastname':'', 'phone':'', 'message':''})
+  const [formDetails, setFormDetails] = useState({'firstname':'', 'lastname':'', 'contact':'', 'message':''})
   const [isFormSubmitted, setIsFormSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)
 
@@ -23,12 +23,14 @@ function Contact() {
         return;
       }
       setLoading(true);
-      const fd = new FormData();
-      fd.append('firstname', formDetails.firstname);
-      fd.append('lastname', formDetails.lastname);
-      fd.append('message', formDetails.message);
-      fd.append('contact', formDetails.phone);
-      await axios.post(`${process.env.REACT_APP_STUDIO_BE}/lead/add`, fd, {
+      let data = {
+        'firstname': formDetails.firstname,
+        'lastname': formDetails.lastname,
+        'message': formDetails.message,
+        'contact': formDetails.contact
+      }
+      const urlSearchParams = new URLSearchParams(data);
+      await axios.post(`${process.env.REACT_APP_STUDIO_BE}/lead/add`, urlSearchParams.toString(), {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'
         }
@@ -45,7 +47,9 @@ function Contact() {
 
   const handleInputChange = (e)=>{
     e.stopPropagation();
-    setFormDetails({...formDetails, [e.target.name]: e.target.value})
+    let name = e.target.name;
+    let value = e.target.value;
+    setFormDetails({...formDetails, [name]: value})
   }
   
 
@@ -58,7 +62,7 @@ function Contact() {
     let naming = {
       'firstname': {'label':'First Name', 'length': 50},
       'lastname': {'label':'Last Name', 'length': 50},
-      'phone': {'label':'Contact Number', 'length': 10},
+      'contact': {'label':'Contact Number', 'length': 10},
       'message': {'label':'Message', 'length': 500}
     }
 
@@ -67,9 +71,9 @@ function Contact() {
       if(!value || (value && !value.trim()) ||(value && value.trim().length > naming[e.target.name].length)){
         fn(`Please enter a valid ${naming[e.target.name].label} of maximum ${naming[e.target.name].length} characters`);
       }
-    }else if(e.target.name === 'phone'){
+    }else if(e.target.name === 'contact'){
       if(!value || (value && !value.match(/^[1-9]{1}[0-9]{9}$/))){
-        fn(`Please enter a valid ${naming[e.target.name]} of 10 digits`);
+        fn(`Please enter a valid ${naming[e.target.name].label} of 10 digits`);
       }
     }
 
@@ -86,7 +90,7 @@ function Contact() {
     let naming = {
       'firstname': {'label':'First Name', 'length': 50},
       'lastname': {'label':'Last Name', 'length': 50},
-      'phone': {'label':'Contact Number', 'length': 10},
+      'contact': {'label':'Contact Number', 'length': 10},
       'message': {'label':'Message', 'length': 500}
     }
 
@@ -98,7 +102,7 @@ function Contact() {
           fn(`Please enter a valid ${naming[key].label} of maximum ${naming[key].length} characters`);
           isInvalidEntryPresent = true;
         }
-      }else if(key === 'phone'){
+      }else if(key === 'contact'){
         if(!value || (value && !value.match(/^[1-9]{1}[0-9]{9}$/))){
           fn(`Please enter a valid ${naming[key]} of 10 digits`);
           isInvalidEntryPresent = true;
@@ -152,7 +156,7 @@ function Contact() {
             <div className='mb-4'>
               <p className='m-0'>Name *</p>
               <div className='d-flex align-items-center'>
-                <input autoFocus={true} autoComplete='on' id="firstname" name="firstname" type="text" placeholder='First Name' className={['me-2',styles.input].join(' ')} value={formDetails.firstname} onChange={handleInputChange} onBlur={handleInputValidation}/>
+                <input autoComplete='on' id="firstname" name="firstname" type="text" placeholder='First Name' className={['me-2',styles.input].join(' ')} value={formDetails.firstname} onChange={handleInputChange} onBlur={handleInputValidation}/>
                 <input autoComplete='on' id="lastname" name="lastname" type="text" placeholder='Last Name' className={['ms-2',styles.input].join(' ')} value={formDetails.lastname} onChange={handleInputChange} onBlur={handleInputValidation}/>
               </div>
             </div>
@@ -160,7 +164,7 @@ function Contact() {
             <div className='my-4'>
               <p className='m-0'>Contact Number *</p>
               <div>
-                <input autoComplete='on' id="phone" name="phone" type="text" className={styles.input} value={formDetails.phone} onChange={handleInputChange} onBlur={handleInputValidation}/>
+                <input autoComplete='on' id="contact" name="contact" type="text" className={styles.input} value={formDetails.contact} onChange={handleInputChange} onBlur={handleInputValidation}/>
               </div>
             </div>
 
