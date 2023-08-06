@@ -1,67 +1,191 @@
-import React,{useLayoutEffect} from 'react'
+import React,{useLayoutEffect, useState} from 'react'
 import styles from "../styles/contact/contact.module.css"
 // import Sidebar from '../home/Sidebar'
+import { toast } from 'react-toastify';
+import axios from 'axios';
+import Spinner from 'react-bootstrap/Spinner';
+import Lottie from '../../common/lottie/Lottie';
 
 function Contact() {
 
+  const SESSION_FORM_SUBMISSION_KEY = 'SESSION_FORM_SUBMISSION_KEY'
+  const [formDetails, setFormDetails] = useState({'firstname':'', 'lastname':'', 'phone':'', 'message':''})
+  const [isFormSubmitted, setIsFormSubmitted] = useState(false)
+  const [loading, setLoading] = useState(false)
 
-  const submitForm = (e)=>{
+  const submitForm = async(e)=>{
     try {
       if(e){
         e.preventDefault();
       }
-      console.log('submit')
-    } catch (error) {
-      console.log({error})
+      const isInvalidEntryPresent = validateForm();
+      if(isInvalidEntryPresent){
+        return;
+      }
+      setLoading(true);
+      const fd = new FormData();
+      fd.append('firstname', formDetails.firstname);
+      fd.append('lastname', formDetails.lastname);
+      fd.append('message', formDetails.message);
+      fd.append('contact', formDetails.phone);
+      await axios.post(`${process.env.REACT_APP_STUDIO_BE}/lead/add`, fd, {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      })
+      setIsFormSubmitted(true);
+      showToast('Submission successful', 'error');
+      sessionStorage.setItem(SESSION_FORM_SUBMISSION_KEY, JSON.stringify(true))
     }
+     catch (error) {
+      showToast(error.message, 'error');
+    }
+    setLoading(false);
+  }
+
+  const handleInputChange = (e)=>{
+    e.stopPropagation();
+    setFormDetails({...formDetails, [e.target.name]: e.target.value})
+  }
+  
+
+  const handleInputValidation = (e)=>{
+    e.stopPropagation();
+    let fn = (msg)=>{
+      showToast(msg, 'error');
+    }
+
+    let naming = {
+      'firstname': {'label':'First Name', 'length': 50},
+      'lastname': {'label':'Last Name', 'length': 50},
+      'phone': {'label':'Contact Number', 'length': 10},
+      'message': {'label':'Message', 'length': 500}
+    }
+
+    let value = e.target.value;
+    if(['firstname','lastname', 'message'].includes(e.target.name)){
+      if(!value || (value && !value.trim()) ||(value && value.trim().length > naming[e.target.name].length)){
+        fn(`Please enter a valid ${naming[e.target.name].label} of maximum ${naming[e.target.name].length} characters`);
+      }
+    }else if(e.target.name === 'phone'){
+      if(!value || (value && !value.match(/^[1-9]{1}[0-9]{9}$/))){
+        fn(`Please enter a valid ${naming[e.target.name]} of 10 digits`);
+      }
+    }
+
+    if(value){
+      setFormDetails({...formDetails, [e.target.name]: value.trim()})
+    }
+  }
+
+  const validateForm = ()=>{
+    let fn = (msg)=>{
+      showToast(msg, 'error');
+    }
+
+    let naming = {
+      'firstname': {'label':'First Name', 'length': 50},
+      'lastname': {'label':'Last Name', 'length': 50},
+      'phone': {'label':'Contact Number', 'length': 10},
+      'message': {'label':'Message', 'length': 500}
+    }
+
+    let isInvalidEntryPresent = false;
+    Object.keys(formDetails).forEach((key)=>{
+      let value = formDetails[key];
+      if(['firstname','lastname', 'message'].includes(key)){
+        if(!value || (value && !value.trim()) ||(value && value.trim().length > naming[key].length)){
+          fn(`Please enter a valid ${naming[key].label} of maximum ${naming[key].length} characters`);
+          isInvalidEntryPresent = true;
+        }
+      }else if(key === 'phone'){
+        if(!value || (value && !value.match(/^[1-9]{1}[0-9]{9}$/))){
+          fn(`Please enter a valid ${naming[key]} of 10 digits`);
+          isInvalidEntryPresent = true;
+        }
+      }
+    })
+
+    return isInvalidEntryPresent;
+  }
+  
+  const showToast = (msg, type="success")=>{
+    toast[type](msg, {
+      position: "bottom-center",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+    })
   }
 
   useLayoutEffect(()=>{
     window.scrollTo(0,0);
+    let sessionFormSubmitted = sessionStorage.getItem(SESSION_FORM_SUBMISSION_KEY);
+    if(sessionFormSubmitted && JSON.parse(sessionFormSubmitted)){
+      sessionFormSubmitted = true;
+    }else{
+      sessionFormSubmitted = false;
+    }
+    setIsFormSubmitted(sessionFormSubmitted)
   }, [])
 
   return (
     <div className={['w-100 h-100', styles.contactContainer].join(' ')}>
       <div className={['row m-0 w-100'].join(' ')}>
         <div className='col-md-6 col-sm-12'><h1>Get in touch</h1></div>
-
-        {/* Form */}
-        <div className='col-md-6 col-sm-12'>
-
-          <div className='mb-4'>
-            <p className='m-0'>Name *</p>
-            <div className='d-flex align-items-center'>
-              <input autoFocus={true} autoComplete='on' id="fname" name="fname" type="text" placeholder='First Name' className={['me-2',styles.input].join(' ')}/>
-              <input autoComplete='on' id="lname" name="lname" type="text" placeholder='Last Name' className={['ms-2',styles.input].join(' ')}/>
+        {
+          isFormSubmitted ? 
+          (
+            <div className={['col-md-6 col-sm-12 d-flex justify-content-center align-items-center flex-column', styles.successContainer].join(' ')}>
+              <div><Lottie/></div>
+              <p>Thank you for submitting the form! Our team will be reaching out to you shortly</p>
             </div>
-          </div>
+          )
+          :
+          (
+          <div className='col-md-6 col-sm-12'>
 
-          <div className='my-4'>
-            <p className='m-0'>Email *</p>
-            <div>
-              <input autoComplete='on' id="email" name="email" type="text" className={styles.input}/>
+            <div className='mb-4'>
+              <p className='m-0'>Name *</p>
+              <div className='d-flex align-items-center'>
+                <input autoFocus={true} autoComplete='on' id="firstname" name="firstname" type="text" placeholder='First Name' className={['me-2',styles.input].join(' ')} value={formDetails.firstname} onChange={handleInputChange} onBlur={handleInputValidation}/>
+                <input autoComplete='on' id="lastname" name="lastname" type="text" placeholder='Last Name' className={['ms-2',styles.input].join(' ')} value={formDetails.lastname} onChange={handleInputChange} onBlur={handleInputValidation}/>
+              </div>
             </div>
-          </div>
 
-          <div className='my-4'>
-            <p className='m-0'>Contact Number *</p>
-            <div>
-              <input autoComplete='on' id="phone" name="phone" type="text" className={styles.input}/>
+            <div className='my-4'>
+              <p className='m-0'>Contact Number *</p>
+              <div>
+                <input autoComplete='on' id="phone" name="phone" type="text" className={styles.input} value={formDetails.phone} onChange={handleInputChange} onBlur={handleInputValidation}/>
+              </div>
             </div>
-          </div>
 
-          <div className='my-4'>
-            <p className='m-0'>Message *</p>
-            <div>
-              <textarea name='message' id='message' className={[styles.input, styles.textArea].join(' ')}></textarea>
+            <div className='my-4'>
+              <p className='m-0'>Message *</p>
+              <div>
+                <textarea name='message' id='message' className={[styles.input, styles.textArea].join(' ')} value={formDetails.message} onChange={handleInputChange} onBlur={handleInputValidation}></textarea>
+              </div>
             </div>
-          </div>
 
-          <div className="">
-            <button className={styles['touch']} onClick={submitForm}>Submit</button>
-          </div>
+            <div className="">
+              <button disabled={loading} className={styles['touch']} onClick={submitForm}>
+                {
+                  loading ? 
+                  <Spinner animation="border" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                  </Spinner>
+                  :'Submit'
+                }
+              </button>
+            </div>
 
-        </div>
+          </div>
+          )
+        }
       </div>
     </div>
   )

@@ -4,6 +4,8 @@ import Routes from './components/routes/routes';
 import GlobalContext from './context/Global/GlobalContext';
 import { useEffect, useLayoutEffect, useState } from 'react';
 import { UPDATE_SIDEBAR_DIMENSIONS } from './context/Global/GlobalContextEvents';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 function App() {
@@ -50,6 +52,18 @@ function App() {
           <Routes/>
         </div>
       </div>
+      <ToastContainer
+        position="bottom-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss={false}
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
     </GlobalContext.Provider>
   );
 }

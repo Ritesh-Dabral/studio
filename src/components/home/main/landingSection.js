@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Image from '../../images/image';
 import Modal from 'react-bootstrap/Modal';
 import Spinner from 'react-bootstrap/Spinner';
+import { toast } from 'react-toastify';
 
 
 export default function LandingSection() {
@@ -89,7 +90,16 @@ export default function LandingSection() {
       setImages(tempImages)
 
     } catch (error) {
-      // console.log({error})
+      toast.error(error.message, {
+        position: "bottom-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
     }
     setFetchInProgress(false)
   }
