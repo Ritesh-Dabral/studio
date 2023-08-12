@@ -1,0 +1,12 @@
+.galleryContainer img{
+    object-fit: contain !important;
+    padding: 10px;
+}
+
+
+/* media */
+@media only screen and (max-width: 600px) {
+    .galleryContainer img{
+        padding: 0;
+    }
+}

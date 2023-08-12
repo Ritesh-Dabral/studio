@@ -2,9 +2,10 @@ import axios from 'axios';
 import styles from '../../styles/home/main/landingSection.module.css'
 import { useState, useEffect } from 'react';
 import Image from '../../images/image';
-import Modal from 'react-bootstrap/Modal';
+import Modal from '../../common/modal/Modal';
 import Spinner from 'react-bootstrap/Spinner';
 import { toast } from 'react-toastify';
+import Gallery from '../../common/gallery/Gallery';
 
 
 export default function LandingSection() {
@@ -13,7 +14,7 @@ export default function LandingSection() {
   const [hasMore, setHasMore] = useState(true);
   const [pageData, setPageData] = useState({'page':1, 'limit':12});
   const [fetchInProgress, setFetchInProgress] = useState(false);
-  const [gallery, setGallery] = useState({'show':false, 'index':0});
+  const [gallery, setGallery] = useState({'show':false, 'index':0, 'images':[]});
 
   const generateDynamicGridItemCss = (index, row)=>{
 
@@ -105,7 +106,28 @@ export default function LandingSection() {
   }
 
   const handleGalleryView = async(e, index)=>{
-    setGallery({'show':true, 'index':index})
+    e.stopPropagation();
+    let galleryImages = images.map((img, idx)=>{
+      return {'original': img.image_url, 'description': img.image_meta.category.toUpperCase()}
+    })
+    // hide scroll on body
+    let bodyList = document.getElementsByTagName('body')
+    Array.from(bodyList).forEach(element => {
+      // Do something with 'element'
+      element.style.overflow = 'hidden';
+    });
+    setGallery({'show':true, 'index':index, 'images':galleryImages})
+  }
+
+  const handleGalleryHide = async(e)=>{
+    e.stopPropagation();
+    setGallery({'show':false, 'index':0, 'images':[]})
+    // show scroll on body
+    let bodyList = document.getElementsByTagName('body')
+    Array.from(bodyList).forEach(element => {
+      // Do something with 'element'
+      element.style.overflow = 'auto';
+    });
   }
 
   useEffect(()=>{
@@ -120,7 +142,7 @@ export default function LandingSection() {
           {
             Array.isArray(images) && images.map((_img, index)=>{
               return (
-                <div key={`images_${index}_home`} style={generateDynamicGridItemCss(index, Math.floor(index/6))}>
+                <div key={`images_${index}_home`} style={generateDynamicGridItemCss(index, Math.floor(index/6))} onClick={(e)=>handleGalleryView(e, index)}>
                   <Image source={_img.image_url} name={_img.image_meta.originalname} base64={_img.image_base64} meta={_img.image_meta}/>
                   {/* <img className={styles['gallery__img']} src={imgSrc} alt=""/> */}
                 </div>
@@ -144,6 +166,17 @@ export default function LandingSection() {
                </button>
             </div>
           )
+        }
+
+        {
+          gallery.show && 
+          <Modal 
+            handleClose={handleGalleryHide}
+            headerText="Gallery"
+          >
+            <Gallery images={gallery.images} startIndex={gallery.index} />
+          </Modal>
+          
         }
     </>
   )

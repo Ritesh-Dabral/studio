@@ -4,7 +4,7 @@ import styles from "../styles/contact/contact.module.css"
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import Spinner from 'react-bootstrap/Spinner';
-import Lottie from '../../common/lottie/Lottie';
+import Lottie from '../common/lottie/Lottie';
 
 function Contact() {
 
