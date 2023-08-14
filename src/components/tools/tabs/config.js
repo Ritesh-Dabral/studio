@@ -1,0 +1,49 @@
+export const leadStatus = [
+    {    
+        'label':'NEW',
+        'key':'new'
+    },
+    {    
+        'label':'IN PROGRESS',
+        'key':'in_progress'
+    },
+    {    
+        'label':'COMPLETED',
+        'key':'completed'
+    },
+    {    
+        'label':'FAILED',
+        'key':'failed'
+    }
+]
+
+export const imageCategories = [
+    {    
+        'label':'wedding',
+        'key':'wedding'
+    },
+    {    
+        'label':'birthday',
+        'key':'birthday'
+    },
+    {    
+        'label':'mundan',
+        'key':'mundan'
+    },
+    {    
+        'label':'anniversary',
+        'key':'anniversary'
+    },
+    {    
+        'label':'engagement',
+        'key':'engagement'
+    },
+    {    
+        'label':'mehendi',
+        'key':'nmehendiew'
+    },
+    {    
+        'label':'misc',
+        'key':'misc'
+    }
+]

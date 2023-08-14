@@ -5,10 +5,12 @@ import { toast } from 'react-toastify';
 import axios from 'axios';
 import Spinner from 'react-bootstrap/Spinner';
 import Lottie from '../common/lottie/Lottie';
+import { sessionStorageKeys } from '../../utils/storageKeys';
 
 function Contact() {
 
-  const SESSION_FORM_SUBMISSION_KEY = 'SESSION_FORM_SUBMISSION_KEY'
+  // const SESSION_FORM_SUBMISSION_KEY = 'SESSION_FORM_SUBMISSION_KEY'
+  
   const [formDetails, setFormDetails] = useState({'firstname':'', 'lastname':'', 'contact':'', 'message':''})
   const [isFormSubmitted, setIsFormSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -37,7 +39,7 @@ function Contact() {
       })
       setIsFormSubmitted(true);
       showToast('Submission successful');
-      sessionStorage.setItem(SESSION_FORM_SUBMISSION_KEY, JSON.stringify(true))
+      sessionStorage.setItem(sessionStorageKeys.SESSION_FORM_SUBMISSION_KEY, JSON.stringify(true))
     }
      catch (error) {
       showToast(error.message, 'error');
@@ -128,7 +130,7 @@ function Contact() {
 
   useLayoutEffect(()=>{
     window.scrollTo(0,0);
-    let sessionFormSubmitted = sessionStorage.getItem(SESSION_FORM_SUBMISSION_KEY);
+    let sessionFormSubmitted = sessionStorage.getItem(sessionStorageKeys.SESSION_FORM_SUBMISSION_KEY);
     if(sessionFormSubmitted && JSON.parse(sessionFormSubmitted)){
       sessionFormSubmitted = true;
     }else{

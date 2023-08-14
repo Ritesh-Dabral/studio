@@ -1,0 +1,15 @@
+.new{
+    background: transparent !important;
+}
+
+.in_progress{
+    background: orange !important;
+}
+
+.completed{
+    background: #0080008c !important;
+}
+
+.failed{
+    background: #ff0000a1 !important;
+}

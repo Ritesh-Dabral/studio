@@ -26,7 +26,7 @@ function Sidebar() {
   const navigate = useNavigate();
   const containerRef = useRef(null)
   const navigatorRef = useRef(null)
-  const { globalDispatch, isMobileSize } = useContext(GlobalContext);
+  const { globalDispatch, isMobileSize, showSideBar=true } = useContext(GlobalContext);
 
   const [currentTab, setCurrentTab] = useState(sideTabs[0].key)
 
@@ -85,61 +85,73 @@ function Sidebar() {
   return (
 
     <>
-        <div ref={navigatorRef} className={['w-100 h-100 mt-1 px-3', styles.stickyNavbar].join(' ')}>
-          <p onClick={handleShow} className='m-0'> <img src={listIcon} alt='list'/></p>
-        </div>
-
-        <div>
-          <Offcanvas className='border-0' show={show} scroll={!isMobileSize} onHide={handleClose} backdrop={false} onEntered={handleDimensionChange} onExited={handleDimensionChange} ref={containerRef}>
-            <div ref={containerRef} className='h-100  w-100'>
-              <Offcanvas.Header closeButton className='d-md-none'>
-                <Offcanvas.Title></Offcanvas.Title>
-              </Offcanvas.Header>
-              <Offcanvas.Body>
-
-                {/* Logo */}
-                <div className={styles['logo-container']}>
-                  <img src='https://rkstudio.s3.ap-south-1.amazonaws.com/static/logo2.png' alt='logo'/>
-                </div>
-
-                {/* Pages */}
-                <div>
-                  {
-                    Array.isArray(sideTabs) && sideTabs.map((tab, index)=>{
-                      return (
-                      <div 
-                        key={`home_sidebar_${index}`} 
-                        className={['px-4 py-2 my-2', styles.tabBtn ,(currentTab===tab.key ? styles.active : styles.inactive)].join(' ')}
-                        onClick={()=>handleClick(tab.key)}
-                      >
-                        <p className={styles['btn-link']}>{tab.label}</p>
-                      </div>
-                      )
-                    })
-                  }
-                </div>
-
-                {/* Connections */}
-                <div className={['mt-5', styles.connectOptions].join(' ')}>
-                  {
-                    Array.isArray(connectOptions) && connectOptions.map((option, index)=>{
-                      return (
-                      <span key={`connect_options_${index}`} onClick={ option.link ? ()=>handleRedirection(option.link) : option.fn }>
-                        <img src={option.icon} alt='icon' className='' />
-                      </span>
-                      )
-                    })
-                  }
-                </div>
-
-                {/* Copyright */}
-                <div className={['my-4', styles.copyRight].join(' ')}> 
-                  <p> &#169; RK Digital Studio 2023</p>
-                </div>
-              </Offcanvas.Body>
+      {
+        showSideBar ? 
+        (    
+          <>
+            <div ref={navigatorRef} className={['w-100 h-100 mt-1 px-3', styles.stickyNavbar].join(' ')}>
+              <p onClick={handleShow} className='m-0'> <img src={listIcon} alt='list'/></p>
             </div>
-          </Offcanvas>
-        </div>
+    
+            <div>
+              <Offcanvas className='border-0' show={show} scroll={!isMobileSize} onHide={handleClose} backdrop={false} onEntered={handleDimensionChange} onExited={handleDimensionChange} ref={containerRef}>
+                <div ref={containerRef} className='h-100  w-100'>
+                  <Offcanvas.Header closeButton className='d-md-none'>
+                    <Offcanvas.Title></Offcanvas.Title>
+                  </Offcanvas.Header>
+                  <Offcanvas.Body>
+    
+                    {/* Logo */}
+                    <div className={styles['logo-container']}>
+                      <img src='https://rkstudio.s3.ap-south-1.amazonaws.com/static/logo2.png' alt='logo'/>
+                    </div>
+    
+                    {/* Pages */}
+                    <div>
+                      {
+                        Array.isArray(sideTabs) && sideTabs.map((tab, index)=>{
+                          return (
+                          <div 
+                            key={`home_sidebar_${index}`} 
+                            className={['px-4 py-2 my-2', styles.tabBtn ,(currentTab===tab.key ? styles.active : styles.inactive)].join(' ')}
+                            onClick={()=>handleClick(tab.key)}
+                          >
+                            <p className={styles['btn-link']}>{tab.label}</p>
+                          </div>
+                          )
+                        })
+                      }
+                    </div>
+    
+                    {/* Connections */}
+                    <div className={['mt-5', styles.connectOptions].join(' ')}>
+                      {
+                        Array.isArray(connectOptions) && connectOptions.map((option, index)=>{
+                          return (
+                          <span key={`connect_options_${index}`} onClick={ option.link ? ()=>handleRedirection(option.link) : option.fn }>
+                            <img src={option.icon} alt='icon' className='' />
+                          </span>
+                          )
+                        })
+                      }
+                    </div>
+    
+                    {/* Copyright */}
+                    <div className={['my-4', styles.copyRight].join(' ')}> 
+                      <p>rakeshdabral2@gmail.com</p>
+                      <p>+91-9917081275, +91-8273328959</p>
+                      <p>(Developed & designed by : riteshdabral1@gmail.com, +91-9911536608)</p>
+                      <p> &#169; RK Digital Studio 2023</p>
+                    </div>
+                  </Offcanvas.Body>
+                </div>
+              </Offcanvas>
+            </div>
+          </>
+        )
+        :
+        null
+      }
     </>
 
   )
